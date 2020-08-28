@@ -1,0 +1,47 @@
+.body{
+    width: 100%;
+    background: url('https://ik.arhano.ru/wp-content/uploads/2019/04/World___Travel_and_Tourism_Compass_on_old_world_map_067503_.jpg');
+}
+.welcom{
+    color: rgb(255, 255, 255);
+    text-align: center;
+    height: 500px;
+    padding-top: auto;
+    padding-bottom: auto;
+}
+.welcom h1{
+    margin: 0;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    font-family: 'Lobster', cursive;
+    font-size: 56px;
+}
+.welcom h3{
+    font-family: 'Lobster', cursive;
+    font-size: 44px;
+}
+.container{
+    width: 100%;
+}
+.row{
+    width: 100%;
+    margin-top: 100px;
+    display: flex; 
+    flex-wrap: wrap;
+    justify-content: center;
+    font-family: 'Raleway', sans-serif;
+    font-size: 18px;
+}
+.col{
+    grid-area: "post-1";
+    margin: 10px;
+    width: 200px;
+    align-items: center;
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-self: center;
+}

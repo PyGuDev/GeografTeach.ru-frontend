@@ -1,0 +1,124 @@
+html { 
+    box-sizing: border-box;
+    width: 100%;
+  } 
+body{
+    width: 100%;
+    margin: 0;
+    background-color: rgb(235, 235, 235);
+}
+
+.header{
+    color: white;
+    justify-content: space-between;
+    width: 100%;
+    display: flex;
+    
+}
+.container{
+    width: 100%!important;
+}
+.humbager{
+    background-color: rgb(43, 159, 236);
+    justify-content: space-between;
+    display: none;
+}
+.collapse{
+    flex-grow: 1;
+    background-color: rgb(43, 159, 236);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.collapse ul{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+.collapse ul li{
+    padding: 10px;
+    list-style-type: none;
+    align-items: center;
+
+}
+.collapse ul li a{
+    color: white;
+    text-decoration: none;    
+    display: block;
+    background-image: linear-gradient(rgb(255, 246, 246), rgb(250, 228, 228));
+    background-position: 0% 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 2px;
+    transition: background-size .3s;
+}
+.collapse ul li a:hover{
+    background-size: 100% 2px;
+}
+.active{
+    background-size: 100% 2px!important;
+}
+.login{
+    margin-right: 10px;
+}
+@media screen and (max-width: 570px){
+    .header{
+        flex-direction: column;
+    }
+
+    .humbager{
+        display: block;
+        order: 0;
+        float: right;
+    }
+    .btn-collapse button{
+        background: url('../icons/menu.svg');
+        border: none;
+        width: 48px;
+        height: 48px;
+        margin-right: 20px;
+  
+    }
+    .collapse{
+        margin-top:48px;
+        position: absolute;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        opacity: 0;
+        display: none;
+        transition: all .9s ease-in-out;
+        align-content: center;
+    }
+    .down{
+        opacity: 88%;
+        display: flex;
+        
+    }
+
+    .collapse ul{
+        flex-direction: column;
+    }
+    .footer{
+        width: 93%;
+    }
+}
+
+
+footer{
+    margin-top: 100px;
+    background-color: rgb(43, 159, 236);
+    width: 100%;
+    padding: 10px;
+}
+footer span{
+    padding-left: 30px;
+    color: white;
+    font-size: 15px;
+    font-family: 'Raleway', sans-serif;;
+}
+.links{
+    padding-left: 30px;
+}
