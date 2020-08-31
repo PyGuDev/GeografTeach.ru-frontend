@@ -16,7 +16,8 @@
 				<option>10</option>
 				<option>11</option>
 			</select>
-			<input type="password" name="password" id="password" v-model="password" placeholder="Password">
+			<input type="password" name="password" id="password" v-model="password1" placeholder="Password">
+			<input type="password" name="password" id="password" v-model="password2" placeholder="Password">
 			<span>{{error}}</span>
 			<input type="submit" value="Регистрация">
 		</form>

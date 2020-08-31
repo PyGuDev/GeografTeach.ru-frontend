@@ -3,7 +3,7 @@
         <div class="body">
             <div class="welcom">
                 <h1>Сайт учителя географии</h1>
-                <h3>Губаевой Марины Салкаевной</h3>
+                <h3>Губаевой Марины Салкаевны</h3>
             </div>
         </div>
         <div class="container">

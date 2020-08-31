@@ -17,7 +17,7 @@
                         <span>Количество заданий: {{listTask.length}}</span>
                         <span>Количество выполненых: {{listAnswer.length}}</span>
                     </div>
-                    <span><a href='' @click="goToChat">Чат</a></span>
+                    <div class="chat-link"><a  href='' @click="goToChat">Написать учителю</a></div>
                 </div>
             </div>
             <div class="task">
@@ -165,6 +165,16 @@ export default {
         display: flex;
         justify-content: center;
         align-self: center;
+    }
+    .chat-link{
+        margin-top: 10px;
+    }
+    .chat-link a{
+        text-decoration: none;
+        color: rgb(85, 85, 85);
+    }
+    .chat-link a:hover{
+        color: rgb(134, 134, 134);
     }
     .lk-inform{
         width: 35%;

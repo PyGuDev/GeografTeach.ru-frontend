@@ -78,6 +78,7 @@ export default {
                     data: form
                 }).then(resp => {
                     this.loadMassageToAdmin()
+                    this.textMessage = ''
                 })
         }
         
