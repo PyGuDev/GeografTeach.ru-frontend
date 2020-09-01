@@ -105,7 +105,7 @@ export default {
         height: 600px;
     }
     .message-list{
-        background: gray;
+        background: rgb(190, 190, 190);
         width: 30%;
         margin-bottom: 10px;
         padding: 10px;
