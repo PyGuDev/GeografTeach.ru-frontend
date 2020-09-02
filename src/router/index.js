@@ -29,7 +29,7 @@ Vue.use(VueRouter)
   {
     path: '/blog',
     name: 'Blog',
-    component: Blog
+    component: Blog,
   },
   {
     path: '/files',

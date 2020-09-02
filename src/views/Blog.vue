@@ -4,6 +4,9 @@
         <div class="block-content">
             <div class="row-blog" v-for="article in listArticle" :key="article.id">
                 <div class="col image" v-if="article.img"><img :src="article.img" alt="" srcset=""></div>
+                <div class="col youtube" v-if="article.url_youtube">
+                    <iframe width="560" height="315" frameborder="0" :src="getUrllYuotubeVideo(article.url_youtube)" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
                 <div class="col">
                     <div class="description">
                         <h3>{{article.title}}</h3>
@@ -110,6 +113,10 @@ export default {
         },
         selectPage(pageNumber){
             this.page = pageNumber
+        },
+        getUrllYuotubeVideo(url){
+            var tmp = url.split('/')[3].split('=')[1]
+            return `https://www.youtube.com/embed/${tmp}`
         }
 
     }
@@ -139,6 +146,14 @@ export default {
     .image{
         width: 38%!important;
         display: flex!important;
+    }
+    .youtube{
+        width: 38%!important;
+        display: flex!important;
+    }
+    .youtube iframe{
+        width: 90%;
+        margin: 10px;
     }
     .image img{
         width: 90%;
@@ -205,6 +220,9 @@ export default {
         }
         .image{
             width: 100%!important;
+        }
+        .youtube{
+            width: 90%!important;
         }
         .description p{
             text-align: start;

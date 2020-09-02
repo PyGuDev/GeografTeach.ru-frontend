@@ -5,6 +5,9 @@
                 <div class="col">
                     <div class="description">
                         <img :src="article.img" alt="" srcset="">
+                        <div class="youtube" v-if="article.url_youtube">
+                            <iframe width="560" height="315" frameborder="0" :src="getUrllYuotubeVideo(article.url_youtube)" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
                         <h3>{{article.title}}</h3>
                         <span>Категория: {{article.category}}</span>
                         <p>{{article.text}}</p>
@@ -60,6 +63,10 @@ export default {
             }), 
             this.loadArticle()
         },
+        getUrllYuotubeVideo(url){
+            var tmp = url.split('/')[3].split('=')[1]
+            return `https://www.youtube.com/embed/${tmp}`
+        }
     }
 }
 </script>
@@ -96,6 +103,16 @@ export default {
     .description img{
         width: 50%;
         margin-top: 20px;
+    }
+    .youtube{
+        width: 80%;
+        align-self: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .youtube iframe{
+        width: 90%;
+        margin: 10px;
     }
     .description button{
         background-color: rgb(0 0 0 / 35%);

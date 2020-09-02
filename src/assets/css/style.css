@@ -73,14 +73,7 @@ body{
         order: 0;
         float: right;
     }
-    .btn-collapse button{
-        background: url('../icons/menu.svg');
-        border: none;
-        width: 48px;
-        height: 48px;
-        margin-right: 20px;
-  
-    }
+    
     .collapse{
         margin-top:48px;
         position: absolute;

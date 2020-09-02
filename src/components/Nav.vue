@@ -3,16 +3,16 @@
         <div class="header">
             <div class="humbager">
                 <div class="btn-collapse">
-                    <button v-on:click="show = !show"></button>
+                    <button v-on:click="show = !show" v-bind:class="{'open': !show, 'close': show}"></button>
                 </div>
             </div>
             {{this.click}}
-            <nav id='collapse' class="collapse" v-bind:class="{'collapse':!show, 'down': show}">
+            <nav id='collapse' class="collapse" v-bind:class="{'collapse':!show, 'down': show}" style="opacity:100%!important">
                 <ul>
-                    <li class="nav-link"><a href="#" v-bind:class="{'active':  path == 'Home'}" @click="goTo('Home')">Главная</a></li>
-                    <li class="nav-link"><a href="#" v-bind:class="{'active':  path == 'About'}" @click="goTo('About')">Обо мне</a></li>
-                    <li class="nav-link"><a href="#" v-bind:class="{'active':  path == 'Blog'}" @click="goTo('Blog')">Новости</a></li>
-                    <li class="nav-link"><a href="#" v-bind:class="{'active':  path == 'File'}" @click="goTo('File')">Файлы</a></li>
+                    <li class="nav-link"><a href="" v-bind:class="{'active':  path == 'Home'}" @click="goTo('Home')">Главная</a></li>
+                    <li class="nav-link"><a href="" v-bind:class="{'active':  path == 'About'}" @click="goTo('About')">Обо мне</a></li>
+                    <li class="nav-link"><a href="" v-bind:class="{'active':  path == 'Blog'}" @click="goTo('Blog')">Новости</a></li>
+                    <li class="nav-link"><a href="" v-bind:class="{'active':  path == 'File'}" @click="goTo('File')">Файлы</a></li>
                 </ul>
                 <div class="login"  v-if="!isLoggedIn">
                     <a href="" @click="goTo('SingIn')"><img src="../assets/icons/user.png" alt=""></a>
@@ -53,6 +53,7 @@ export default {
             if(this.$router.app._route.name != namePath){
                 this.$router.push({name: namePath})
                 this.path = namePath
+                this.show = false
             }
         },
         activeLink(){
@@ -74,6 +75,31 @@ export default {
 </script>
 
 <style>
+    .open{
+        background: url('../assets/icons/menu.svg');
+        border: none;
+        width: 48px;
+        height: 48px;
+        margin-right: 20px;
+    }
+  
+    .open:focus{
+        border: none;
+        outline: none;
+    }
+    .close:focus{
+        border: none;
+        outline: none;
+    }
+    .close{
+        background: url('../assets/icons/close.svg');
+        border: none;
+        width: 48px;
+        height: 48px;
+        margin-right: 20px;
+        transform: rotate(180deg);
+        transition: transform 0.4s ease;
+    }
     .user{
         display: flex;
         justify-content: center;

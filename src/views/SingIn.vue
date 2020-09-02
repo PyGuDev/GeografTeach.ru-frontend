@@ -32,7 +32,6 @@ export default {
         validate(){
             if(this.email != '' && this.password != ''){
               this.error = ''
-              return true
             }
             else{
                 this.error = 'Заполните все поля'

@@ -16,8 +16,8 @@
 				<option>10</option>
 				<option>11</option>
 			</select>
-			<input type="password" name="password" id="password" v-model="password1" placeholder="Password">
-			<input type="password" name="password" id="password" v-model="password2" placeholder="Password">
+			<input type="password" name="password" id="password1" v-model="password1" placeholder="Password">
+			<input type="password" name="password" id="password2" v-model="password2" placeholder="Password">
 			<span>{{error}}</span>
 			<input type="submit" value="Регистрация">
 		</form>
@@ -41,18 +41,25 @@ export default {
 					error: ''
 			}
 	},
-	updated(){
-		console.log(this.class_number);
-	},
 	methods:{
 		validate(){
 			if(this.first_name != '' && this.last_name != '' && this.class_number != ''  && this.password1 != '' && this.password2 != ''){
 				if(this.password1 != this.password2){
 					this.error = 'Пароли не совпадают'
+					return false
 				}
 				else{
+					var regularExpression = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/;
 					this.error = ''
-					return true
+					if(!regularExpression.test(this.password1)){
+						this.error = 'Пароль должен содержать латинские буквы и как минимум один символ, а длина больше 8 символов'
+						
+						return false
+					}
+					else{
+						this.error = ''
+						return true
+					}
 				}
 			}
 			else{

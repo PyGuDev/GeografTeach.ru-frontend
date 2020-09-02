@@ -7,7 +7,7 @@ Vue.use(axios)
 
 const store = new Vuex.Store({
     state: {
-        backendUrl: "https://geografteach.ru/api",
+        backendUrl: "http://127.0.0.1:8000",
         status: '',
         token: localStorage.getItem('token') || '',
         user: localStorage.getItem('user') || '',
