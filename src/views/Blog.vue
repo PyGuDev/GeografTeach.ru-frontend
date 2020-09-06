@@ -38,7 +38,6 @@ export default {
     data() {
         return{
             listArticle: [],
-            
             nextPage: '',
             previosPage: '',
             selected: '',

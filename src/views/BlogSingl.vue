@@ -11,6 +11,9 @@
                         <h3>{{article.title}}</h3>
                         <span>Категория: {{article.category}}</span>
                         <p>{{article.text}}</p>
+                        <div class="list-image">
+                            <img v-for="img in listImageForArticle" :key="img.id" :src="img.img" alt="">
+                        </div>
                     </div>
                     <div class="visibility">
                         <span style="padding-right: 15px">Дата публикации: {{article.pub_date}}.</span>
@@ -33,10 +36,12 @@ export default {
     data() {
         return{
             article: [],
+            listImageForArticle: []
         }
     },
     created(){
-        this.loadArticle()
+        this.loadArticle(),
+        this.loadListImages(this.article.id)
     },
     
     methods: {
@@ -47,6 +52,11 @@ export default {
                 console.log(e);
             })
             
+        },
+        async loadListImages(id){
+            this.listImageForArticle = await this.$http(
+                `${this.$store.getters.getServerUrl}/blog/images/?id=${this.id}`
+            ).then(resp => resp.data)
         },
        async addLike(id_article, is_like){
             let data = {
@@ -128,6 +138,15 @@ export default {
     .description button:focus{
         outline: none;
     }
+    .list-image{
+        width: 100%;
+        margin-top:20px;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .list-image img{
+        width: 50%;
+    }
     .block-service{
         margin-left: auto;
         margin-right: auto;
@@ -156,6 +175,12 @@ export default {
     }
     @media screen and (max-width: 560px){
         .row-blog{
+            flex-direction: column;
+        }
+        .list-image{
+            width: 80%;
+            margin-top:20px;
+            display: flex;
             flex-direction: column;
         }
         .col{
