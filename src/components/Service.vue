@@ -9,8 +9,8 @@
         <label for="select">Категории:</label>
         <select v-model="selected">
           <option disabled value>Выберите один из вариантов</option>
-		  <option></option>
-          <option v-for="category in listCategory" :key="category.pk">{{category.name}}</option>
+		      <option value=""></option>
+          <option v-for="category in listCategory" :key="category.pk" :value="category.id">{{category.name}}</option>
         </select>
       </div>
     </form>
