@@ -12,7 +12,7 @@
                         <h3>{{article.title}}</h3>
                         <span>Категория: {{article.category}}</span>
                         <p>{{article.text.substring(0, 250)}}</p>
-                        <button @click="goTo(article.id)">Читать далее...</button>
+                        <button @click="goToPage(article.id)">Читать далее...</button>
                     </div>
                     <div class="visibility">
                         <span style="padding-right: 15px">Дата публикации: {{article.pub_date}}.</span>
@@ -69,33 +69,33 @@ export default {
             if(this.search_text)
               params['q'] = this.search_text
 
-            this.listArticle = await this.$http(
+            let response_data = await this.$http(
               `${this.$store.getters.getServerUrl}/blog/`,
                   {params: params}
             ).then(response => response.data);
-            this.count = this.listArticle.count
-            this.listArticle = this.listArticle.results;
+            this.count = response_data.count
+            this.listArticle = response_data.results;
 
         },
         async loadListArticle(pageNumber){
-            this.listArticle = await this.$http(
+            let response_data = await this.$http(
             `${this.$store.getters.getServerUrl}/blog/?page=${pageNumber}`
             ).then(response => response.data);
-            this.count = this.listArticle.count
-            this.countPages = this.listArticle.count_page
-            this.nextPage = this.listArticle.next
+            this.count = response_data.count
+            this.countPages = response_data.count_page
+            this.nextPage = response_data.next
             this.nextPage = this.nextPage != null ? this.nextPage.split('?')[1]: ''
-            this.previosPage = this.listArticle.previous
+            this.previosPage = response_data.previous
             this.previosPage = this.previosPage != null ? this.previosPage.split('?')[1] : ''
-            this.listArticle = this.listArticle.results
+            this.listArticle = response_data.results
         },
         async addLike(id_article){
-            var response_data = await this.$http({
+            let response_data = await this.$http({
                 url: `${this.$store.getters.getServerUrl}/blog/article/${id_article}/add_like/`,
                 method: "POST",
             }).then(response => response.data);
              this.listArticle.filter(function(value){
-                if(value.id == response_data.article) {
+                if(value.id === response_data.article) {
                   value.like_user = response_data.like;
                   if(value.like_user)
                     value.count_like ++;
@@ -105,7 +105,7 @@ export default {
             })
 
         },
-        goTo(id){
+        goToPage(id){
             this.$router.push({name: 'BlogSingl', params: {id: id}})
             this.path = 'BlogSingl'
         },
