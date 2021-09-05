@@ -1,7 +1,7 @@
 <template>
     <div class="container">
-        <Service @updateParent="onUpdateSalary"/>
-        <div class="block-content">
+        <Service @updateParent="onUpdateParent"/>
+        <div class="block-content" v-if="count !== 0">
             <div class="row-blog" v-for="article in listArticle" :key="article.id">
                 <div class="col image" v-if="article.img"><img :src="article.img" alt="" srcset=""></div>
                 <div class="col youtube" v-if="article.url_youtube">
@@ -18,8 +18,8 @@
                         <span style="padding-right: 15px">Дата публикации: {{article.pub_date}}.</span>
                         <img src="../assets/icons/eye.png" alt="" srcset="">
                         <span>{{article.visit}}</span>
-                        <img v-if="article.like_user" src="../assets/icons/like.png" alt="" srcset="" style="padding-left: 10px" @click="addLike(article.id, article.like_user)">
-                        <img v-else src="../assets/icons/like_.png" alt="" srcset="" style="padding-left: 10px" @click="addLike(article.id, article.like_user)">
+                        <img v-if="article.like_user" src="../assets/icons/like.png" alt="" srcset="" style="padding-left: 10px" @click="addLike(article.id)">
+                        <img v-else src="../assets/icons/like_.png" alt="" srcset="" style="padding-left: 10px" @click="addLike(article.id)">
                         <span>{{article.count_like}}</span>
                     </div>
                 </div>
@@ -43,7 +43,8 @@ export default {
             selected: '',
             search_text: '',
             countPages: 0,
-            page: 1
+            page: 1,
+            count: 0
         }
     },
     components: {Service, Pagination},
@@ -51,60 +52,58 @@ export default {
         this.loadListArticle(this.page)
     },
     methods:{
-        onUpdateSalary(someData){
-            if(someData != undefined){
-                this.selected = someData.selected
-                this.loadSearchedListArticle()
-                if(someData.search != undefined){
-                    this.search_text = someData.search
-                    this.loadSearchedListArticle()
-            }}
+        onUpdateParent(data){
+            if(data !== undefined){
+                this.selected = data.selected
+                if(data.search !== undefined) {
+                  this.search_text = data.search
+                }
+                this.getFilteredListArticle()
+            }
                
         },
-        search(text){
-            return  this.listArticle.filter(function(value){
-                return value.title.toLowerCase().indexOf(text.toLowerCase()) > -1;
-            })
-        },
-        selectFilter(select){
-            return  this.listArticle.filter(function(value){
-                return value.category.indexOf(select) > -1;
-            })
-        },
-        async loadSearchedListArticle(){
-            this.listArticle = await this.$http(
-            `${this.$store.getters.getServerUrl}/blog/filter/`
-            ).then(response => response.data);
-            this.listArticle = this.listArticle
-            this.listArticle = this.search(this.search_text)
+        async getFilteredListArticle(){
+            let params = {};
             if(this.selected)
-                this.listArticle = this.selectFilter(this.selected)
+              params['category'] = this.selected
+            if(this.search_text)
+              params['q'] = this.search_text
+
+            this.listArticle = await this.$http(
+              `${this.$store.getters.getServerUrl}/blog/`,
+                  {params: params}
+            ).then(response => response.data);
+            this.count = this.listArticle.count
+            this.listArticle = this.listArticle.results;
+
         },
         async loadListArticle(pageNumber){
             this.listArticle = await this.$http(
             `${this.$store.getters.getServerUrl}/blog/?page=${pageNumber}`
             ).then(response => response.data);
-            this.countPages = this.listArticle.count
-            this.nextPage = this.listArticle.links.next
+            this.count = this.listArticle.count
+            this.countPages = this.listArticle.count_page
+            this.nextPage = this.listArticle.next
             this.nextPage = this.nextPage != null ? this.nextPage.split('?')[1]: ''
-            this.previosPage = this.listArticle.links.previous
+            this.previosPage = this.listArticle.previous
             this.previosPage = this.previosPage != null ? this.previosPage.split('?')[1] : ''
             this.listArticle = this.listArticle.results
         },
-        async addLike(id_article, is_like){
-            let data = {
-                article: id_article,
-                like: is_like ? false : true,           
-            }
-            await this.$http({
-                url: `${this.$store.getters.getServerUrl}/blog/addLike`,
+        async addLike(id_article){
+            var response_data = await this.$http({
+                url: `${this.$store.getters.getServerUrl}/blog/article/${id_article}/add_like/`,
                 method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-               data: JSON.stringify(data)
-            }), 
-            this.loadListArticle(this.page)
+            }).then(response => response.data);
+             this.listArticle.filter(function(value){
+                if(value.id == response_data.article) {
+                  value.like_user = response_data.like;
+                  if(value.like_user)
+                    value.count_like ++;
+                  else
+                    value.count_like --
+                }
+            })
+
         },
         goTo(id){
             this.$router.push({name: 'BlogSingl', params: {id: id}})
