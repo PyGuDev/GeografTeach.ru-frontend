@@ -12,7 +12,7 @@
                         <span>Категория: {{article.category}}</span>
                         <p>{{article.text}}</p>
                         <div class="list-image">
-                            <img v-for="img in listImageForArticle" :key="img.id" :src="img.img" alt="">
+                            <img v-for="img in article.images" :key="img.id" :src="img.img" alt="">
                         </div>
                     </div>
                     <div class="visibility">
@@ -35,13 +35,11 @@ export default {
     props: ['id'],
     data() {
         return{
-            article: [],
-            listImageForArticle: []
+            article: []
         }
     },
     created(){
-        this.loadArticle(),
-        this.loadListImages(this.article.id)
+        this.loadArticle()
     },
     
     methods: {
@@ -52,11 +50,6 @@ export default {
                 console.log(e);
             })
             
-        },
-        async loadListImages(id){
-            this.listImageForArticle = await this.$http(
-                `${this.$store.getters.getServerUrl}/blog/images/?id=${this.id}`
-            ).then(resp => resp.data)
         },
        async addLike(id_article, is_like){
             let data = {
