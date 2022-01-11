@@ -7,88 +7,131 @@ Vue.use(axios)
 
 const store = new Vuex.Store({
     state: {
-        backendUrl: "https://geografteach.ru/api",
+        backendUrl: "http://127.0.0.1:8000/api",
         status: '',
-        token: localStorage.getItem('token') || '',
+        access_token: localStorage.getItem('access_token') || '',
+        token_expire: localStorage.getItem('token_expire') || '',
+        refresh_token: localStorage.getItem('refresh_token') || '',
         user: localStorage.getItem('user') || '',
         id: localStorage.getItem('id') || '',
         is_admin: localStorage.getItem('is_admin') || false,
     },
     mutations: {
-        auth_request(state){
+        auth_request(state) {
             state.status = 'loading'
-          },
-          auth_success(state, token, user){
+        },
+        auth_success(state, access_token, refresh_token, expire, user) {
             state.status = 'success'
-            state.token = token
+            state.access_token = access_token
+            state.refresh_token = refresh_token
+            state.token_expire = expire
             state.user = user
-          },
-          auth_error(state){
+        },
+        refresh_token_success(state, access_token, expire) {
+            state.status = 'success'
+            state.access_token = access_token
+            state.token_expire = expire
+        },
+        token_expired(state){
+            state.access_token = ''
+        },
+        auth_error(state) {
             state.status = 'error'
-          },
-          logout(state){
+        },
+        logout(state) {
             state.status = ''
-            state.token = ''
-          },
+            state.access_token = ''
+            state.refresh_token = ''
+        },
     },
     actions: {
-        login({commit}, user){
+        login({commit}, user) {
             return new Promise((resolve, reject) => {
-              commit('auth_request')
-              axios({url: `${this.getters.getServerUrl}/user/singin/`, data: user, method: 'POST' })
-              .then(resp => {
-                const token = 'Token ' + resp.data.token
-                const user = resp.data.user
-                const id = resp.data.id
-                const is_admin = resp.data.admin
-                localStorage.setItem('token', token)
-                localStorage.setItem('user', user)
-                localStorage.setItem('id', id)
-                localStorage.setItem('is_admin', is_admin)
-                axios.defaults.headers.common['Authorization'] = token
-                commit('auth_success', token, user)
-                resolve()
-              })
-              .catch(err => {
-                commit('auth_error')
-                localStorage.removeItem('token')
-                reject(err)
-              })
+                commit('auth_request')
+                axios({url: `${this.getters.getServerUrl}/user/singin/`, data: user, method: 'POST'})
+                    .then(resp => {
+                        const access_token = resp.data.access
+                        const refresh_token = resp.data.refresh
+                        const token_expire = resp.data.token_expire
+                        const user = resp.data.user
+                        localStorage.setItem('access_token', access_token)
+                        localStorage.setItem('refresh_token', refresh_token)
+                        localStorage.setItem('token_expire', token_expire)
+                        localStorage.setItem('user', user)
+                        commit('auth_success', access_token, refresh_token, token_expire, user)
+                        axios.defaults.headers.common['Authorization'] = 'Bearer ' + access_token
+                        resolve()
+                    })
+                    .catch(err => {
+                        commit('auth_error')
+                        localStorage.removeItem('access_token')
+                        localStorage.removeItem('refresh_token')
+                        reject(err)
+                    })
             })
         },
-        register({commit}, user){
+        refresh_token({commit}) {
             return new Promise((resolve, reject) => {
-              commit('auth_request')
-              axios({url: `${this.getters.getServerUrl}/user/register/`, data: user, method: 'POST' })
-              .then(resp => {
-                resolve()
-              })
-              .catch(err => {
-                commit('auth_error', err)
-                reject(err)
-              })
+                commit('auth_request')
+                let data = {
+                    "refresh": this.state.refresh_token
+                }
+                axios({url: `${this.getters.getServerUrl}/user/token/refresh`, data: data, method: 'POST'})
+                    .then(resp => {
+                        const access_token = resp.data.access
+                        const expire = resp.data.token_expire
+                        localStorage.setItem('access_token', access_token)
+                        localStorage.setItem('token_expire', expire)
+                        axios.defaults.headers.common['Authorization'] = 'Bearer ' + access_token
+                        commit('refresh_token_success', access_token, expire)
+                        resolve(access_token)
+                    })
+                    .catch(err => {
+                        commit('auth_error')
+                        reject(err)
+                    })
             })
         },
-        logout({commit}){
+        register({commit}, user) {
             return new Promise((resolve, reject) => {
-              commit('logout')
-              localStorage.removeItem('token')
-              delete axios.defaults.headers.common['Authorization']
-              resolve()
+                commit('auth_request')
+                axios({url: `${this.getters.getServerUrl}/user/register/`, data: user, method: 'POST'})
+                    .then(resp => {
+                        resolve()
+                    })
+                    .catch(err => {
+                        commit('auth_error', err)
+                        reject(err)
+                    })
+            })
+        },
+        logout({commit}) {
+            return new Promise((resolve, reject) => {
+                commit('logout')
+                localStorage.removeItem('access_token')
+                localStorage.removeItem('refresh_token')
+                localStorage.removeItem('token_expire')
+                localStorage.removeItem('user')
+                localStorage.removeItem('id')
+                delete axios.defaults.headers.common['Authorization']
+                resolve()
             })
         }
-        
+
     },
     modules: {},
     getters: {
         getServerUrl: state => {
             return state.backendUrl;
         },
-        isLoggedIn: state => !!state.token,
+        isLoggedIn: state => !!state.access_token,
         authStatus: state => state.status,
         getUser: state => state.user,
-        getUserId : state => state.id,
+        getUserId: state => state.id,
         getStatusAdmin: state => state.is_admin,
+        getAccessToken: state => state.access_token,
+        getRefreshToken: state => state.refresh_token,
+        getTokenExpire: state => state.token_expire,
     }
 
 })

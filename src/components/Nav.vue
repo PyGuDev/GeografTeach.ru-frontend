@@ -10,7 +10,6 @@
             <nav id='collapse' class="collapse" v-bind:class="{'collapse':!show, 'down': show}" style="opacity:100%!important">
                 <ul>
                     <li class="nav-link"><a href="" v-bind:class="{'active':  path == 'Home'}" @click="goTo('Home')">Главная</a></li>
-                    <li class="nav-link"><a href="" v-bind:class="{'active':  path == 'About'}" @click="goTo('About')">Обо мне</a></li>
                     <li class="nav-link"><a href="" v-bind:class="{'active':  path == 'Blog'}" @click="goTo('Blog')">Новости</a></li>
                     <li class="nav-link"><a href="" v-bind:class="{'active':  path == 'File'}" @click="goTo('File')">Файлы</a></li>
                 </ul>

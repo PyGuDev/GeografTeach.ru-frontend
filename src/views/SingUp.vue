@@ -16,8 +16,22 @@
 				<option>10</option>
 				<option>11</option>
 			</select>
-			<input type="password" name="password" id="password1" v-model="password1" placeholder="Password">
-			<input type="password" name="password" id="password2" v-model="password2" placeholder="Password">
+      <div class="input-password" v-if="password1_is_view == false">
+			  <input type="password" name="password" class="password" id="password1" v-model="password1" placeholder="Введите пароль">
+         <a class="password-control" @click="show_hide_password('password1')"></a>
+      </div>
+      <div class="input-password" v-else>
+			  <input type="text" name="password" class="password" id="password1" v-model="password1" placeholder="Введите пароль">
+         <a class="password-control view" @click="show_hide_password('password1')"></a>
+      </div>
+      <div class="input-password" v-if="password2_is_view == false">
+        <input type="password" name="password" class="password" id="password2" v-model="password2" placeholder="Повторите пароль">
+        <a class="password-control" @click="show_hide_password('password2')"></a>
+      </div>
+      <div class="input-password" v-else>
+			  <input type="text" name="password" class="password" id="password2" v-model="password2" placeholder="Повторите пароль">
+         <a class="password-control view" @click="show_hide_password('password2')"></a>
+      </div>
 			<span>{{error}}</span>
 			<input type="submit" value="Регистрация">
 		</form>
@@ -38,7 +52,9 @@ export default {
 					email: '',
 					password1: '',
 					password2: '',
-					error: ''
+					error: '',
+          password1_is_view: false,
+          password2_is_view: false
 			}
 	},
 	methods:{
@@ -67,6 +83,14 @@ export default {
 			}
 			return false
 		},
+    show_hide_password(element_id) {
+        if (element_id == 'password1'){
+          this.password1_is_view = !this.password1_is_view;
+        }
+        if (element_id == 'password2'){
+          this.password2_is_view = !this.password2_is_view;
+        }
+    },
 		register: function() {
 			if(this.validate() != false){
 			let data = {
@@ -165,5 +189,27 @@ span{
 	form{
 		width: 60%;
 	}
+}
+.input-password {
+  position: relative;
+  width: 85%;
+  margin-left: 0;
+  display: flex;
+}
+.password {
+  width: 100%;
+}
+.password-control {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    display: inline-block;
+    width: 23px;
+    height: 20px;
+    background: url(../assets/icons/visibility.svg) 0 0 no-repeat;
+}
+
+.password-control.view {
+    background: url(../assets/icons/no-visibility.svg) 0 0 no-repeat;
 }
 </style>

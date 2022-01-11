@@ -101,6 +101,7 @@ export default {
         margin-left: 20px;
         padding-right: 10px;
         text-align: center;
+        line-height: 25px;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     }
     .description img{
@@ -146,7 +147,7 @@ export default {
     }
     .visibility{
         margin-top: 20px;
-        margin-bottom: 10px;
+        margin-bottom: 25px;
         display: flex;
         justify-content: flex-end;
         margin-right: 50px;

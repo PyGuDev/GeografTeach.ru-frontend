@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home'
-import About from '../views/About'
 import Blog from '../views/Blog'
 import File from '../views/File'
 import BlogSingl from '../views/BlogSingl'
@@ -20,11 +19,6 @@ Vue.use(VueRouter)
     path: '/',
     name: 'Home',
     component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: About
   },
   {
     path: '/blog',
@@ -85,9 +79,10 @@ router.beforeEach((to, from, next) => {
   if(to.matched.some(record => record.meta.requiresAuth)) {
     if (store.getters.isLoggedIn) {
       next()
-      return
     }
-    next('/login') 
+    else {
+      next('/login')
+    }
   } else {
     next() 
   }

@@ -32,7 +32,7 @@
                         <p>{{task.description.substring(0, 300)}}</p>
                     </div>
                     <div class="date">
-                            <span>Дата сдачи: {{task.date.split('T')[0]}} {{task.date.split('T')[1].split('Z')[0]}}</span>
+                            <span>Дата сдачи: {{task.date}}</span>
                     </div>
                     <button @click="goToTask(task.id)">Подробнее</button>
                     <span class="performed" :class="{'active-done': getDoneTask(task)}">Выполнено</span>
@@ -44,6 +44,9 @@
     </div>
 </template>
 <script>
+
+import jwtInterceptor from "../request/jwt";
+
 export default {
     name: "Lk",
     data(){
@@ -54,27 +57,30 @@ export default {
         }
     },
     created(){
-        this.getUser(this.getUserId()),
-        this.loadListTask(),
-        this.loadListAnswer()
+        this.isAuthenticated(),
+        this.getUser(),
+        this.loadListTask()
+        // this.loadListAnswer()
     },
     methods:{
-        async getUser(userId){
+        async getUser(){
             this.user = await this.$http.get(
-                `${this.$store.getters.getServerUrl}/user/${userId}/`
+                `${this.$store.getters.getServerUrl}/user/profile/`,
             ).then(resp => resp.data)
+            localStorage.setItem('id', this.user.id)
+            localStorage.setItem('user', this.user.email)
         },
         async loadListTask(){
             this.listTask = await this.$http.get(
                 `${this.$store.getters.getServerUrl}/lk/task/`
             ).then(resp => resp.data)
         },
-        async loadListAnswer(){
-            this.listAnswer = await this.$http.get(
-                `${this.$store.getters.getServerUrl}/lk/task/aswer/`
-            ).then(resp => resp.data)
-            
-        },
+        // async loadListAnswer(){
+        //     this.listAnswer = await this.$http.get(
+        //         `${this.$store.getters.getServerUrl}/lk/task/aswer/`
+        //     ).then(resp => resp.data)
+        //
+        // },
         getUserId(){
             return this.$store.getters.getUserId
         },
@@ -92,6 +98,17 @@ export default {
         goToChat(){
             this.$router.push({name: 'Chat'})
             this.path = 'Chat'
+        },
+        isAuthenticated(){
+          setTimeout(() => {
+            if(!this.$store.getters.isLoggedIn){
+            this.goToSignIn()
+          }
+          }, 300);
+        },
+        goToSignIn(){
+            this.$router.push({name: 'SingIn'})
+            this.path = 'SingIn'
         }
     }
     
