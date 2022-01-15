@@ -39,6 +39,14 @@ export default {
   created() {
     this.loadTest()
   },
+  watch: {
+    $route: {
+      immediate: true,
+      handler(to, from) {
+        document.title = to.meta.title || 'Some Default Title';
+      }
+    },
+  },
   methods: {
     async loadTest() {
       this.tests = await this.$http.get(

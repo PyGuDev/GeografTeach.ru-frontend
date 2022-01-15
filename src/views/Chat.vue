@@ -29,6 +29,14 @@ export default {
     this.loadMassage()
     this.timerLoadMessage= setInterval(this.loadMassage, 10000)
   },
+  watch: {
+    $route: {
+      immediate: true,
+      handler(to, from) {
+        document.title = to.meta.title || 'Some Default Title';
+      }
+    },
+  },
   computed: {
   },
   beforeDestroy() {

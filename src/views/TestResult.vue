@@ -37,6 +37,14 @@ export default {
       }
     }
   },
+  watch: {
+    $route: {
+      immediate: true,
+      handler(to, from) {
+        document.title = to.meta.title || 'Some Default Title';
+      }
+    },
+  },
   methods: {
     async getResult() {
       let response = await this.$http.get(

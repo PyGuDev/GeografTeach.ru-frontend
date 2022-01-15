@@ -57,6 +57,14 @@ export default {
           password2_is_view: false
 			}
 	},
+  watch: {
+    $route: {
+      immediate: true,
+      handler(to, from) {
+        document.title = to.meta.title || 'Some Default Title';
+      }
+    },
+  },
 	methods:{
 		validate(){
 			if(this.first_name != '' && this.last_name != '' && this.class_number != ''  && this.password1 != '' && this.password2 != ''){

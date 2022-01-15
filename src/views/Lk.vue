@@ -71,6 +71,14 @@ export default {
         this.loadListTask()
     // this.loadListAnswer()
   },
+  watch: {
+    $route: {
+      immediate: true,
+      handler(to, from) {
+        document.title = to.meta.title || 'Some Default Title';
+      }
+    },
+  },
   methods: {
     async getUser() {
       this.user = await this.$http.get(

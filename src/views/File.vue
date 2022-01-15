@@ -173,6 +173,14 @@ export default {
   created() {
     this.loadListFiles(this.page)
   },
+  watch: {
+    $route: {
+      immediate: true,
+      handler(to, from) {
+        document.title = to.meta.title || 'Сайт учителя географии';
+      }
+    },
+  },
   components: {Pagination, Service},
   methods: {
     onUpdateParent(data) {

@@ -58,6 +58,14 @@ export default {
     this.loadImage(),
     this.loadAnswer()
   },
+  watch: {
+    $route: {
+      immediate: true,
+      handler(to, from) {
+        document.title = to.meta.title || 'Some Default Title';
+      }
+    },
+  },
   methods: {
     async loadTask() {
       this.task = await this.$http.get(

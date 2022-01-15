@@ -39,6 +39,14 @@ export default {
   created() {
     this.getQuestions()
   },
+  watch: {
+    $route: {
+      immediate: true,
+      handler(to, from) {
+        document.title = to.meta.title || 'Some Default Title';
+      }
+    },
+  },
   methods: {
     goBack() {
       this.$router.push({name: 'Test'})
@@ -80,7 +88,7 @@ export default {
       if (this.userAnswers[questionId]) {
         let lastAnswerId = this.userAnswers[questionId];
         let lastButtonChecked = document.getElementById(lastAnswerId.toString());
-        if(lastAnswerId != answerId){
+        if (lastAnswerId != answerId) {
           lastButtonChecked.className = 'btn-answer';
         }
 
@@ -99,11 +107,11 @@ export default {
         if (response.status === 200) {
           let raw_list_url = this.sessionUrl.split('/');
           clearInterval(this.timerId);
-          this.goToResult(raw_list_url[raw_list_url.length-1]);
+          this.goToResult(raw_list_url[raw_list_url.length - 1]);
         }
-        } else {
-          this.errorMsg = 'Выберите ответы'
-        }
+      } else {
+        this.errorMsg = 'Выберите ответы'
+      }
     },
 
     prepareDate() {
@@ -114,9 +122,9 @@ export default {
       }
       return data
     },
-    startTimer(expire){
+    startTimer(expire) {
       let sendData = this.sendData;
-      let intervalId = setInterval(function (){
+      let intervalId = setInterval(function () {
         let now = new Date();
         this.expire = expire.getTime() - now.getTime();
         var days = Math.floor(this.expire / (1000 * 60 * 60 * 24));
@@ -126,7 +134,7 @@ export default {
         let expireStr = hours + "ч " + minutes + "м " + seconds + "с ";
         let expireElement = document.getElementById('expire');
         expireElement.innerHTML = 'Осталось: ' + expireStr;
-        if(this.expire < 0){
+        if (this.expire < 0) {
           sendData().then();
           let expireStr = 0 + "ч " + 0 + "м " + 0 + "с ";
           clearInterval(intervalId);

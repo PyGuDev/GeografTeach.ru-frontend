@@ -21,71 +21,111 @@ const routes = [
     {
         path: '/',
         name: 'Home',
-        component: Home
+        component: Home,
+        meta: {
+            title: 'Сайт учителя географии'
+        }
+
     },
     {
         path: '/blog',
         name: 'Blog',
         component: Blog,
+        meta: {
+            title: 'Статьи'
+        }
     },
     {
         path: '/files',
         name: 'File',
-        component: File
+        component: File,
+        meta: {
+            title: 'Файлы, документы'
+        }
     },
     {
         path: '/blog/article/:id',
         name: 'BlogSingl',
         component: BlogSingl,
-        props: true
+        props: true,
+        meta: {
+            title: 'Статья'
+        }
     },
     {
         path: '/user/singup',
         name: 'SingUp',
-        component: SingUp
+        component: SingUp,
+        meta: {
+            title: 'Регистрация'
+        }
     },
     {
         path: '/user/singin',
         name: 'SingIn',
-        component: SingIn
+        component: SingIn,
+        meta: {
+            title: 'Авторизация'
+        }
     },
     {
         path: '/user/help',
         name: 'Help',
-        component: Help
+        component: Help,
+        meta: {
+            title: 'Помощь'
+        }
     },
     {
         path: '/user/lk',
         name: 'Lk',
-        component: Lk
+        component: Lk,
+        meta: {
+            title: 'Личный кабинет'
+        }
     },
     {
         path: '/user/lk/task/:id',
         name: 'Task',
         component: Task,
-        props: true
+        props: true,
+        meta: {
+            title: 'Здача'
+        }
     },
     {
         path: '/user/lk/chat',
         name: 'Chat',
-        component: Chat
+        component: Chat,
+        meta: {
+            title: 'Чат'
+        }
     },
     {
         path: '/user/lk/test',
         name: 'Test',
         component: Test,
+        meta: {
+            title: 'Тесты'
+        }
     },
     {
         path: '/user/lk/test/:testId/session',
         name: 'TestSession',
         component: TestSession,
-        props: true
+        props: true,
+        meta: {
+            title: 'Тест'
+        }
     },
     {
         path: '/user/lk/test/:testId/session/:sessionId/result',
         name: 'TestResult',
         component: TestResult,
-        props: true
+        props: true,
+        meta: {
+            title: 'Резултаты тестов'
+        }
     },
 
 ]
@@ -105,6 +145,9 @@ router.beforeEach((to, from, next) => {
     } else {
         next()
     }
+    Vue.nextTick(() => {
+        document.title = to.meta.title || DEFAULT_TITLE;
+    });
 })
 
 export default router

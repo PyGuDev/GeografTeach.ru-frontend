@@ -28,6 +28,14 @@ export default {
   updated() {
     console.log(this.class_number);
   },
+  watch: {
+    $route: {
+      immediate: true,
+      handler(to, from) {
+        document.title = to.meta.title || 'Some Default Title';
+      }
+    },
+  },
   methods: {
     validate() {
       if (this.email != '' && this.password != '') {

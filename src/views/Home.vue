@@ -124,9 +124,10 @@
 </template>
 
 <style scoped>
-h4, h5{
+h4, h5 {
   margin-bottom: 0px;
 }
+
 .body {
   width: 100%;
   margin-bottom: 50px;
@@ -207,7 +208,8 @@ h4, h5{
     width: 250px;
   }
 }
-.block-title{
+
+.block-title {
   color: rgb(63, 63, 63);
   text-align: center;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -225,7 +227,7 @@ h4, h5{
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-.middle{
+.middle {
   margin-bottom: 50px;
 }
 
@@ -341,3 +343,16 @@ h4, h5{
 }
 </style>
 
+<script>
+export default {
+  name: 'Home',
+  watch: {
+    $route: {
+      immediate: true,
+      handler(to, from) {
+        document.title = to.meta.title || 'Some Default Title';
+      }
+    },
+  }
+}
+</script>
