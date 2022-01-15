@@ -10,7 +10,7 @@
                         </div>
                         <h3>{{article.title}}</h3>
                         <span>Категория: {{article.category}}</span>
-                        <p>{{article.text}}</p>
+                        <p v-html="article.text"></p>
                         <div class="list-image">
                             <img v-for="img in article.images" :key="img.id" :src="img.img" alt="">
                         </div>

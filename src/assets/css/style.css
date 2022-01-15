@@ -7,7 +7,9 @@ body{
     margin: 0;
     background-color: rgb(235, 235, 235);
 }
-
+#content {
+    margin-bottom: 100px;
+}
 .header{
     color: white;
     justify-content: space-between;
@@ -19,13 +21,13 @@ body{
     width: 100%!important;
 }
 .humbager{
-    background-color: rgb(43, 159, 236);
+    background-color: #417690;
     justify-content: space-between;
     display: none;
 }
 .collapse{
     flex-grow: 1;
-    background-color: rgb(43, 159, 236);
+    background-color: #417690;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -93,6 +95,9 @@ body{
 
     .collapse ul{
         flex-direction: column;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0;
     }
     .footer{
         width: 93%;
@@ -101,8 +106,7 @@ body{
 
 
 footer{
-    margin-top: 100px;
-    background-color: rgb(43, 159, 236);
+    background-color: #417690;
     width: 100%;
     padding: 10px;
 }

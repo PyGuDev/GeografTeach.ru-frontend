@@ -27,6 +27,7 @@
     </div>
     <div class="answer-info" v-else>
       <p>Ваш ответ: {{ answer.description }}</p>
+      <p>Ответ был отправлен: {{ answer.created_at }}</p>
       <a :href="answer.file_answer">Файл с ответом</a>
       <br>
       <br>
@@ -152,7 +153,7 @@ export default {
 
 .title-back {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  background: rgb(119, 184, 227);
+  background: #79aec8;
   padding: 10px 0 10px 0;
   margin: 0;
   width: 100%;
@@ -160,10 +161,11 @@ export default {
 }
 
 .title-back a {
-  color: black;
+  color: white;
 }
 .title-task{
-  background: rgb(119, 184, 227);
+  background: #79aec8;
+  color: white;
 }
 
 .answer-info {

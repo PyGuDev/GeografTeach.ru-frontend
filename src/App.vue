@@ -1,13 +1,16 @@
 <template>
   <div id="app" >
     <Nav/>
-    <router-view/>
+    <router-view id="content"/>
     <Footer/>
   </div>
 </template>
 
 <style scoped>
   @import "assets/css/style.css";
+  #content {
+    height: 90%;
+  }
 </style>
 
 <script>

@@ -1,8 +1,8 @@
 <template>
     <div class="block-link-pages">
         <ul class="links">
-            <li v-for="p in total" :key="p">
-                <button :class="{active: currentPage == p}" @click="changePage(p)">{{p}}</button>
+            <li v-for="pg in total" :key="pg">
+                <button :class="{active: currentPage == pg}" @click="changePage(pg)">{{pg}}</button>
             </li>
         </ul>
     </div>
@@ -19,9 +19,10 @@ export default {
     },
     methods:{
         changePage(pageNumber){
-            this.currentPage = pageNumber
-            this.$emit('page-changed', pageNumber)
-            this.$emit('page-select', pageNumber)
+            console.log(pageNumber);
+            this.currentPage = pageNumber;
+            this.$emit('page-changed', pageNumber);
+            this.$emit('page-select', pageNumber);
         },
     }
 }

@@ -11,7 +11,7 @@
                     <div class="description">
                         <h3>{{article.title}}</h3>
                         <span>Категория: {{article.category}}</span>
-                        <p>{{article.text.substring(0, 250)}}</p>
+                        <p v-html="article.text.substring(0, 400)"></p>
                         <button @click="goToPage(article.id)">Читать далее...</button>
                     </div>
                     <div class="visibility">
@@ -75,6 +75,8 @@ export default {
             ).then(response => response.data);
             this.count = response_data.count
             this.listArticle = response_data.results;
+            this.countPages = response_data.count_page;
+
 
         },
         async loadListArticle(pageNumber){
