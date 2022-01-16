@@ -7,7 +7,7 @@ Vue.use(axios)
 
 const store = new Vuex.Store({
     state: {
-        backendUrl: "http://193.124.206.128/api",
+        backendUrl: "https://api.geografteach.ru/api",
         status: '',
         access_token: localStorage.getItem('access_token') || '',
         token_expire: localStorage.getItem('token_expire') || '',
@@ -32,7 +32,7 @@ const store = new Vuex.Store({
             state.access_token = access_token
             state.token_expire = expire
         },
-        token_expired(state){
+        token_expired(state) {
             state.access_token = ''
         },
         auth_error(state) {
@@ -76,6 +76,7 @@ const store = new Vuex.Store({
                 let data = {
                     "refresh": this.state.refresh_token
                 }
+
                 axios({url: `${this.getters.getServerUrl}/user/token/refresh`, data: data, method: 'POST'})
                     .then(resp => {
                         const access_token = resp.data.access
